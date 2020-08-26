@@ -1,0 +1,96 @@
+import edu.duke.*;
+
+public class CaesarCipher {
+    public String encrypt(String input, int key) {
+        //Make a StringBuilder with message (encrypted)
+        StringBuilder encrypted = new StringBuilder(input);
+        //Write down the alphabet
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        //Compute the shifted alphabet
+        String shiftedAlph = alphabet.substring(key) + 
+            alphabet.substring(0,key);
+        //Count from 0 to < length of encrypted, (call it i)
+        for (int i = 0; i< encrypted.length(); i++) {
+            //Look at the ith character of encrypted (call it currChar)
+            char curChar = encrypted.charAt(i);
+            char currChar = Character.toUpperCase(curChar);
+            //Find the index of currChar in the alphabet (call it idx)
+            int idx  = alphabet.indexOf(currChar);
+            //If currChar is in the alphabet
+            if (idx != -1) {   
+                //Get the idxth character of shiftedAlphabet (newChar)
+                char newChar = shiftedAlph.charAt(idx);
+                if (curChar == Character.toLowerCase(curChar)) 
+                //change Uppercase to lowercase if that was previously lowercase
+                    newChar = Character.toLowerCase(newChar);
+                //Replace tif he ith character of encrypted with newChar
+                encrypted.setCharAt(i, newChar);
+            }
+            //Otherwise: do nothing
+
+        }
+        //Your answer is the String inside of encrypted
+        return encrypted.toString();
+    }
+
+    public void testCaesar() {
+        int key = 17;
+        FileResource fr = new FileResource();
+        String message = fr.asString();
+        String encrypted = encrypt(message, key);
+        System.out.println(encrypted);
+        String decrypted = encrypt(encrypted, 26-key);
+        System.out.println(decrypted);
+    }
+
+    public String encryptTwoKeys(String input, int key1, int key2) {
+        StringBuilder encr2keys = new StringBuilder(input);
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String shifted1 = alphabet.substring(key1)+alphabet.substring(0, key1);
+        String shifted2 = alphabet.substring(key2)+alphabet.substring(0, key2);
+
+        int k = 1;
+
+        for (int i=0; i<encr2keys.length(); i++) {
+            char commChar = encr2keys.charAt(i);
+            char currChar = Character.toUpperCase(commChar);
+
+            int idx = alphabet.indexOf(currChar);
+
+            if (idx != -1) {
+                //check if that will be odd symbol
+                if (k % 2 == 1) {
+                    char newChar = shifted1.charAt(idx);
+                    if (commChar == Character.toLowerCase(commChar)) 
+                    //change Uppercase to lowercase if that was previously lowercase
+                        newChar = Character.toLowerCase(newChar);
+
+                    encr2keys.setCharAt(i, newChar);
+
+                }
+                //check if that will be even symbol
+                if (k % 2 == 0) {
+                    char newChar = shifted2.charAt(idx);  
+                    if (commChar == Character.toLowerCase(commChar))
+                    //change Uppercase to lowercase if that was previously lowercase
+                        newChar = Character.toLowerCase(newChar);
+                    encr2keys.setCharAt(i, newChar);
+
+                }
+            }
+            k++; 
+        }
+
+        
+        return encr2keys.toString();
+    }
+
+    public void testencryptTwoKeys() {
+        String ph = "First Legion";
+        int k1 = 23;
+        int k2 = 17;
+        System.out.println(ph);
+        System.out.println("The Encrypted text is:");
+        System.out.println(encryptTwoKeys(ph, k1, k2));        
+    }
+}
