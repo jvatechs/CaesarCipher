@@ -1,0 +1,86 @@
+import java.util.ArrayList;
+/**
+ * Write a description of class WordPlay here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class WordPlay {
+
+    public boolean isVowel (char ch) {
+        String vowels = "AaEeIiOoUu";
+        //StringBuilder vowel = new StringBuilder(vowels) ;
+        String newCh = Character.toString(ch);
+
+        if (vowels.contains(newCh)) return true;
+        else return false;
+
+    }
+
+    public void testVowel () {
+        char test = 'i';
+        if (isVowel(test) == true) System.out.println("True");
+        else System.out.print("false");
+    }
+
+    public String replaceVowels(String phrase, char ch) {
+
+        StringBuilder nonVowels = new StringBuilder(phrase);
+
+        for (int i = 0; i < nonVowels.length(); i++) {
+            char currChar = nonVowels.charAt(i); 
+
+            if (isVowel(currChar) == true) {
+
+                nonVowels.setCharAt(i, ch);
+
+            }
+
+        }
+
+        return nonVowels.toString();
+
+    }
+
+    public void testreplaceVowels() {
+        String ph = "Hello World";
+        char ch = '*';
+        System.out.println(ph);
+        System.out.println(replaceVowels(ph, ch));
+
+    }
+
+    public String emphasize(String phrase, char ch) {
+
+        //odd num in the strings as even num of index
+        // even num in the str as odd num of index
+        StringBuilder nonVowels = new StringBuilder(phrase);
+        int k = 1;
+
+        for (int i = 0; i < nonVowels.length(); i++) {
+            char commonChar = nonVowels.charAt(i);
+            char currChar = Character.toLowerCase(commonChar);
+
+            if (currChar == ch ) {
+
+                if ( k % 2 == 1) nonVowels.setCharAt(i, '*');
+
+                if ( k % 2 == 0) nonVowels.setCharAt(i, '+');
+
+            }
+
+            k++;
+        }
+
+        return nonVowels.toString();     
+
+    }
+
+    public void testemphasize(){
+        String ph = "AMary Bella Abracadabra";
+        char ch = 'a';
+        System.out.println(ph);
+        System.out.println(emphasize(ph, ch));        
+    }
+
+}
